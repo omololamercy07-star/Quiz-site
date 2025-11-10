@@ -1,4 +1,44 @@
-<!doctype html>
+const QUESTIONS = [
+  // --- ANATOMY QUESTIONS ---
+  {
+    id: 1,
+    text: "Which chamber of the heart pumps blood into the systemic circulation?",
+    choices: ["Right atrium", "Right ventricle", "Left atrium", "Left ventricle"],
+    answer: "Left ventricle"
+  },
+  {
+    id: 2,
+    text: "The smallest bone in the human body is located in the:",
+    choices: ["Ear", "Hand", "Foot", "Nose"],
+    answer: "Ear"
+  },
+  {
+    id: 3,
+    text: "The functional unit of the kidney is the:",
+    choices: ["Neuron", "Nephron", "Axon", "Alveolus"],
+    answer: "Nephron"
+  },
+
+  // --- BIOCHEMISTRY QUESTIONS ---
+  {
+    id: 4,
+    text: "Which of the following is a disaccharide?",
+    choices: ["Glucose", "Fructose", "Sucrose", "Galactose"],
+    answer: "Sucrose"
+  },
+  {
+    id: 5,
+    text: "The process of breaking down glucose to pyruvate is called:",
+    choices: ["Gluconeogenesis", "Glycolysis", "Krebs cycle", "Oxidative phosphorylation"],
+    answer: "Glycolysis"
+  },
+  {
+    id: 6,
+    text: "Which vitamin acts as a coenzyme in transamination reactions?",
+    choices: ["Vitamin B6", "Vitamin C", "Vitamin D", "Vitamin K"],
+    answer: "Vitamin B6"
+  }
+];<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
