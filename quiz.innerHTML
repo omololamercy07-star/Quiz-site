@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>My Free Quiz</title>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 700px; margin: 30px auto; padding: 10px; }
+  .question { border: 1px solid #ddd; border-radius: 8px; padding: 15px; margin-bottom: 10px; }
+  button { padding: 8px 14px; border: none; background: #0066ff; color: #fff; border-radius: 5px; cursor: pointer; }
+  button:disabled { background: #aaa; }
+  pre { background: #f5f5f5; padding: 10px; border-radius: 8px; overflow-x: auto; }
+</style>
+</head>
+<body>
+<h2>My Quiz</h2>
+<div id="quiz"></div>
+
+<div style="margin-top: 20px;">
+  <button id="startBtn">Start Quiz</button>
+  <button id="submitBtn" disabled>Submit Quiz</button>
+</div>
+
+<h3>Results</h3>
+<pre id="results">No results yet.</pre>
+
+<script>
+// ========== CONFIGURE YOUR QUESTIONS HERE ==========
+const QUESTIONS = [
+  { id: 1, text: "What is 2 + 2?", choices: ["3", "4", "5"], answer: "4" },
+  { id: 2, text: "Capital of Nigeria?", choices: ["Lagos", "Abuja", "Kano"], answer: "Abuja" },
+  { id: 3, text: "Type 'YES' to confirm:", type: "text", answer: "YES" },
+];
+// ==================================================
+
+let state = { started: false, answers: {}, start: 0, activeId: null };
+
+function renderQuiz() {
+  const quiz = document.getElementById("quiz");
+  quiz.innerHTML = "";
+  QUESTIONS.forEach(q => {
+    const div = document.createElement("div");
+    div.className = "question";
+    div.id = "q" + q.id;
+    div.innerHTML = `<strong>Q${q.id}. ${q.text}</strong><br>`;
+    if (q.choices) {
+      q.choices.forEach(opt => {
+        div.innerHTML += `<label><input type="radio" name="q${q.id}" value="${opt}"> ${opt}</label><br>`;
+      });
+    } else {
+      div.innerHTML += `<input type="text" name="q${q.id}" style="width:100%; padding:5px;">`;
+    }
+    quiz.appendChild(div);
+  });
+}
+
+function startQuiz() {
+  document.getElementById("startBtn").disabled = true;
+  document.getElementById("submitBtn").disabled = false;
+  state.started = true;
+  state.start = Date.now();
+  renderQuiz();
+}
+
+function submitQuiz() {
+  const end = Date.now();
+  let correct = 0;
+  let wrong = [];
+  let omitted = [];
+
+  QUESTIONS.forEach(q => {
+    const el = document.querySelector(`[name="q${q.id}"]:checked`) ||
+               document.querySelector(`[name="q${q.id}"]`);
+    const val = el ? el.value.trim() : "";
+    if (!val) omitted.push(q.id);
+    else if (val.toLowerCase() === q.answer.toLowerCase()) correct++;
+    else wrong.push(q.id);
+  });
+
+  const percent = ((correct / QUESTIONS.length) * 100).toFixed(2);
+  const totalTime = ((end - state.start) / 1000).toFixed(1);
+
+  document.getElementById("results").textContent =
+    `Correct: ${correct
